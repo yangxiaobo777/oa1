@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.oa.dao.PostDao">
+  <select id="queryPost" parameterType="post" resultType="post">
+    select post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour
+    ,case status when '0' then '正常'
+    when '1' then '废弃'
+    else '-' end  as status
+    from post
+    where
+    status = '0'
+    <if test="postNm!=null and postNm!=''">
+      and postNm like concat('%',#{postNm},'%')
+    </if>
+    <if test="offset!='' and limit!=''">
+      and limit #{offset},#{limit}
+    </if>
+
+  </select>
+
+
+  <select id="queryPostNum" parameterType="post" resultType="int">
+    select count(*)
+    from post
+    where
+    status = '0'
+    <if test="postNm!=null and postNm!=''">
+      and postNm like concat('%',#{postNm},'%')
+    </if>
+  </select>
+
+  <select id="queryPostToExcel" parameterType="post" resultType="post">
+    select post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour
+    ,case status when '0' then '正常'
+    when '1' then '废弃'
+    else '-' end  as status
+    from post
+    where
+    status = '0'
+    <if test="postNm!=null and postNm!=''">
+      and postNm like concat('%',#{postNm},'%')
+    </if>
+  </select>
+
+  <insert id="addPost" parameterType="post">
+        insert into post
+        (post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour,status)
+        values
+        (#{post},#{postNm},#{signTmOne},#{signTmTwo},#{signTmThree},#{signTmFour},'0')
+    </insert>
+
+  <insert id="branchAddPost" parameterType="post">
+    insert into post
+    (post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour,status)
+    values
+    <foreach collection="posts" item="post" separator=",">
+      (#{post.post},#{post.postNm},#{post.signTmOne},#{post.signTmTwo},#{post.signTmThree},#{post.signTmFour},'0')
+    </foreach>
+
+  </insert>
+
+  <update id="updatePost" parameterType="post">
+        update post set postNm = #{postNm,jdbcType=VARCHAR}
+                       ,signTmOne = #{signTmOne,jdbcType=VARCHAR}
+                       ,signTmTwo = #{signTmTwo,jdbcType=VARCHAR}
+                       ,signTmThree = #{signTmThree,jdbcType=VARCHAR}
+                       ,signTmFour = #{signTmFour,jdbcType=VARCHAR}
+        where post = #{post}
+    </update>
+
+  <delete id="deletePost" parameterType="string">
+        update post set status = '9' where post = #{post}
+    </delete>
+
+  <delete id="branchDeletePost" parameterType="string">
+    update post set status = '9' where post in
+    <foreach collection="postIds" item="post" open="(" close=")" separator=",">
+      #{post}
+    </foreach>
+  </delete>
+
+  <select id="queryIsExistPost" parameterType="string" resultType="int">
+        select count(*) from post where post = #{post}
+    </select>
+
+</mapper>

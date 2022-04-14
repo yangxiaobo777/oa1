@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.oa.dao.ExamineDao">
+
+
+  <insert id="addExamine">
+    insert into examine
+    (examineId,userId,reason,datadt,status,num)
+    values
+    (#{examineId},#{userId},#{reason},DATE_FORMAT(CURDATE(),'%Y-%m-%d'),'0',#{num})
+  </insert>
+
+  <select id="queryExamine" parameterType="examine" resultType="examine">
+    select a.examineId,a.userId,a.reason,a.dataDt
+          ,case a.status when '0' then '未完成'
+                         when '9' then '已完成'
+                         else '-' end as status
+          ,b.userName
+    from examine a
+    left join employee b
+    on a.userid = b.userid
+    where a.dataDt between #{staDt} and #{endDt}
+      <if test="userName!=null and userName!=''">
+        and b.userName like concat('%',#{userName},'%')
+      </if>
+      <if test="status!=null and status!=''">
+        and a.status = #{status}
+      </if>
+      <if test="offset!='' and limit!=''">
+        and limit #{offset},#{limit}
+      </if>
+
+
+  </select>
+
+  <select id="queryExamineNum" parameterType="examine" resultType="int">
+    select count(*)
+    from examine a
+    left join employee b
+    on a.userid = b.userid
+    where a.dataDt between #{staDt} and #{endDt}
+    <if test="userName!=null and userName!=''">
+      and b.userName like concat('%',#{userName},'%')
+    </if>
+    <if test="status!=null and status!=''">
+      and a.status = #{status}
+    </if>
+  </select>
+
+  <select id="queryExamineToExcel" parameterType="examine" resultType="examine">
+    select a.examineId,a.userId,a.reason,a.dataDt
+    ,case a.status when '0' then '未完成'
+    when '9' then '已完成'
+    else '-' end as status
+    ,b.userName
+    from examine a
+    left join employee b
+    on a.userid = b.userid
+    where a.dataDt between #{staDt} and #{endDt}
+    <if test="userName!=null and userName!=''">
+      and b.userName like concat('%',#{userName},'%')
+    </if>
+    <if test="status!=null and status!=''">
+      and a.status = #{status}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.oa.dao.SignInDao">
+
+  <insert id="initSignIn" parameterType="string">
+    insert into signin
+    (userId,status,dataDt)
+    values
+    <foreach collection="userIds" item="userId" separator=",">
+      (#{userId},'9',DATE_FORMAT(CURDATE(),'%Y-%m-%d'))
+    </foreach>
+  </insert>
+
+  <select id="queryIsExist" parameterType="String" resultType="int">
+    select count(*) from signin where userId = #{userId}
+  </select>
+
+  <insert id="addSignIn">
+    insert into signin
+   (
+    status
+    <if test='status=="1"'>
+      ,signTmOne
+    </if>
+    <if test='status=="2"'>
+      ,signTmTwo
+    </if>
+    <if test='status=="3"'>
+      ,signTmThree
+    </if>
+    <if test='status=="4"'>
+      ,signTmFour
+    </if>
+   )
+    values
+     (#{status},DATE_FORMAT(CURDATE(),'%Y-%m-%d'))
+  </insert>
+
+
+  <update id="updateSignIn">
+    update signin set status = '5'
+        ,reason = #{reason}
+     <if test='status=="1"'>
+        ,signTmOne = #{signinTm}
+     </if>
+     <if test='status=="2"'>
+      ,signTmTwo = #{signinTm}
+     </if>
+     <if test='status=="3"'>
+      ,signTmThree = #{signinTm}
+     </if>
+     <if test='status=="4"'>
+      ,signTmFour = #{signinTm}
+     </if>
+    where userId = #{userId} and dataDt=#{dataDt}
+  </update>
+
+  <update id="updateSignInStatus">
+    update signin set status = #{status}
+    where userId = #{userId} and dataDt=#{dataDt}
+  </update>
+
+  <select id="querySignIn"  parameterType="signIn" resultType="signIn">
+    select   a.userId
+            ,a.signTmOne
+            ,a.signTmTwo
+            ,a.signTmThree
+            ,a.signTmFour
+            ,case a.status when '0' then '正常'
+                           when '9' then '未签到'
+                           when '5' then '申诉'
+                           else '少签' end as status
+            ,a.reasin
+            ,b.username
+    from signin a
+    left join employee b
+    on a.userid = b.userid
+    where
+      a.status = #{status}
+    <if test="userName!=null and userName!=''">
+      and b.userName like concat('%',#{userName},'%')
+    </if>
+    <if test="offset!='' and limit!=''">
+      and limit #{offset},#{limit}
+    </if>
+
+  </select>
+
+  <select id="querySignInNum"  parameterType="signIn" resultType="int">
+    select count(*)
+    from signin a
+    left join employee b
+    on a.userid = b.userid
+    where
+    a.status = #{status}
+    <if test="userName!=null and userName!=''">
+      and b.userName like concat('%',#{userName},'%')
+    </if>
+  </select>
+
+  <select id="querySignInToExcel"  parameterType="signIn" resultType="signIn">
+    select   a.userId
+    ,a.signTmOne
+    ,a.signTmTwo
+    ,a.signTmThree
+    ,a.signTmFour
+    ,case a.status when '0' then '正常'
+    when '9' then '未签到'
+    when '5' then '申诉'
+    else '少签' end as status
+    ,a.reasin
+    ,b.username
+    from signin a
+    left join employee b
+    on a.userid = b.userid
+    where
+    a.status = #{status}
+    <if test="userName!=null and userName!=''">
+      and b.userName like concat('%',#{userName},'%')
+    </if>
+  </select>
+
+  <select id="queryIsSuccess" resultType="hashmap">
+    select signTmOne,signTmTwo,signTmThree,signTmFour from signin
+    where  userId = #{userId}
+       and datadt = #{dataDt}
+  </select>
+
+</mapper>
