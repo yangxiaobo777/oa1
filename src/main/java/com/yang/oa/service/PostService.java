@@ -51,9 +51,10 @@ public class PostService {
             ret.put("aaData",posts);
             ret.put("iTotalRecords",total);
             ret.put("iTotalDisplayRecords",total);
-            ret.put("sEcho",Integer.parseInt("0")+1);
+            ret.put("sEcho",Integer.parseInt((String)param.get("sEcho")));
             return ret;
         }catch (Exception e){
+            log.error("queryPost报错:{}",e.getMessage(),e);
             throw new OaException(500,"查询岗位信息报错!");
         }
 
@@ -65,6 +66,7 @@ public class PostService {
             List<Post> posts = dao.queryPostToExcel(map);
             ExcelUtil.downLoad("员工岗位",Post.class,response,posts);
         }catch (Exception e){
+            log.error("queryPostToExcel报错:{}",e.getMessage(),e);
             throw new OaException(500,"导出岗位信息失败!");
         }
 
