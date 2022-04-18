@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
  <!-- 页面meta -->
  <meta charset="utf-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <title></title>
+
+ <title>新增岗位</title>
+ <meta name="description" content="新增岗位">
+ <meta name="keywords" content="新增岗位">
  <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
  <link rel="stylesheet" href="/oa/adminlte/plugins/bootstrap/css/bootstrap.min.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/font-awesome/css/font-awesome.min.css">
@@ -23,7 +27,7 @@
  <link rel="stylesheet" href="/oa/adminlte/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/adminLTE/css/AdminLTE.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/adminLTE/css/skins/_all-skins.min.css">
- <link rel="stylesheet" href="/oa/css/style.css">
+ <link rel="stylesheet" href="/oa/adminlte/css/style.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/ionslider/ion.rangeSlider.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/ionslider/ion.rangeSlider.skinNice.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/bootstrap-slider/slider.css">
@@ -82,12 +86,11 @@
  <script src="/oa/js/messenger.js"></script>
  <script src="/oa/js/messenger-theme-future.js"></script>
  <script src="/oa/js/toastr.min.js"></script>
-
  <script src="/oa/js/bootstrapValidator.min.js"></script>
-
 </head>
 
 <body class="hold-transition skin-purple sidebar-mini">
+
 <div class="wrapper">
 
  <!-- 页面头部 -->
@@ -127,7 +130,7 @@
           <!-- start message -->
           <a href="#">
            <div class="pull-left">
-            <img src="../img/user2-160x160.jpg" class="img-circle" alt="User Image">
+            <img src="/oa/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
            </div>
            <h4>
             系统消息
@@ -140,7 +143,7 @@
          <li>
           <a href="#">
            <div class="pull-left">
-            <img src="../img/user3-128x128.jpg" class="img-circle" alt="User Image">
+            <img src="/oa/adminlte/img/user3-128x128.jpg" class="img-circle" alt="User Image">
            </div>
            <h4>
             团队消息
@@ -152,7 +155,7 @@
          <li>
           <a href="#">
            <div class="pull-left">
-            <img src="../img/user4-128x128.jpg" class="img-circle" alt="User Image">
+            <img src="/oa/adminlte/img/user4-128x128.jpg" class="img-circle" alt="User Image">
            </div>
            <h4>
             Developers
@@ -164,7 +167,7 @@
          <li>
           <a href="#">
            <div class="pull-left">
-            <img src="../img/user3-128x128.jpg" class="img-circle" alt="User Image">
+            <img src="/oa/adminlte/img/user3-128x128.jpg" class="img-circle" alt="User Image">
            </div>
            <h4>
             Sales Department
@@ -176,7 +179,7 @@
          <li>
           <a href="#">
            <div class="pull-left">
-            <img src="../img/user4-128x128.jpg" class="img-circle" alt="User Image">
+            <img src="/oa/adminlte/img/user4-128x128.jpg" class="img-circle" alt="User Image">
            </div>
            <h4>
             Reviewers
@@ -313,13 +316,13 @@
      <!-- User Account: style can be found in dropdown.less -->
      <li class="dropdown user user-menu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-       <img src="../img/user2-160x160.jpg" class="user-image" alt="User Image">
+       <img src="/oa/adminlte/img/user2-160x160.jpg" class="user-image" alt="User Image">
        <span class="hidden-xs">张猿猿</span>
       </a>
       <ul class="dropdown-menu">
        <!-- User image -->
        <li class="user-header">
-        <img src="../img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        <img src="/oa/adminlte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
         <p>
          张猿猿 - 数据管理员
@@ -400,9 +403,9 @@
  <!-- 导航侧栏 /-->
 
  <!-- 内容区域 -->
- <!-- Content Wrapper. Contains page content -->
  <div class="content-wrapper">
-  <!-- Content Header (Page header) -->
+
+  <!-- 内容头部 -->
   <section class="content-header">
    <h1>
     员工岗位信息
@@ -411,455 +414,71 @@
    <ol class="breadcrumb">
     <li><a href="index.html"><i class="fa fa-dashboard"></i>首页</a></li>
     <li><a href="#">员工管理</a></li>
-    <li class="active">员工岗位</li>
+    <li><a href="post.html">员工岗位</a></li>
+    <li class="active">批量新增</li>
    </ol>
   </section>
+  <!-- 内容头部 /-->
 
-  <!-- Main content -->
+  <!-- 正文区域 -->
   <section class="content">
-   <div class="row">
-    <div class="col-xs-12">
-     <div class="box">
-      <div class="box-header">
-       <form class="form-inline" id="myForm">
 
-
-         <div class="form-group">
-          <label for="postNm">岗位名称</label>
-          <input type="text"  class="form-control" id="postNm" name="postNm" placeholder="请输入" style="width: 200px">
-         </div>
-
-
-         <div class="btn-group" role="group" aria-label="..." style="">
-          <button type="button" class="btn btn-success" onclick="submit1();"><i class="glyphicon glyphicon-search"></i>查询</button>
-          <button type="button" class="btn btn-warning" id="download"><i class="glyphicon glyphicon-download-alt"></i>下载</button>
-          <div class="btn-group">
-           <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user"></i>新增 <span class="caret"></span>
-           </button>
-           <ul class="dropdown-menu">
-            <li><a href="#">单条新增</a></li>
-            <li><a href="#">批量新增</a></li>
-           </ul>
-          </div>
-         </div>
-
-
-
-       </form>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body">
-       <table id="example" class="table table-bordered table-hover">
-        <thead>
-        <tr>
-         <th>岗位名称</th>
-         <th>第一次签到时间</th>
-         <th>第二次签到时间</th>
-         <th>第三次签到时间</th>
-         <th>第四次签到时间</th>
-         <th>工作地点</th>
-         <th>操作</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-       </table>
-      </div>
-
-      <!--单条新增模块-->
-      <div class="example-modal">
-       <div class="modal" id="addModal">
-        <div class="modal-dialog">
-         <div class="modal-content">
-          <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">岗位单条新增</h4>
-          </div>
-          <div class="modal-body">
-           <section class="content-header">
-            <h1>
-             订单管理
-             <small>订单表单</small>
-            </h1>
-            <ol class="breadcrumb">
-             <li><a href="all-admin-index.html"><i class="fa fa-dashboard"></i> 首页</a></li>
-             <li><a href="all-order-manage-list.html">订单管理</a></li>
-             <li class="active">订单表单</li>
-            </ol>
-           </section>
-           <!-- 内容头部 /-->
-
-           <!-- 正文区域 -->
-           <section class="content">
-
-            <!--订单信息-->
-            <div class="panel panel-default">
-             <div class="panel-heading">订单信息</div>
-             <div class="row data-type">
-
-              <div class="col-md-2 title">订单编号</div>
-              <div class="col-md-4 data">
-               <input type="text" class="form-control" placeholder="订单编号" value="">
-              </div>
-
-              <div class="col-md-2 title">下单时间</div>
-              <div class="col-md-4 data">
-               <div class="input-group date">
-                <div class="input-group-addon">
-                 <i class="fa fa-calendar"></i>
-                </div>
-                <input type="text" class="form-control pull-right" id="datepicker-a3">
-               </div>
-              </div>
-              <div class="col-md-2 title">路线名称</div>
-              <div class="col-md-4 data">
-               <input type="text" class="form-control" placeholder="路线名称" value="">
-              </div>
-
-              <div class="col-md-2 title">出发城市</div>
-              <div class="col-md-4 data">
-               <select class="form-control select2" style="width: 100%;">
-                <option value="" selected="selected">Alabama</option>
-                <option value="">Alaska</option>
-                <option value="">California</option>
-                <option value="">Delaware</option>
-                <option value="">Tennessee</option>
-                <option value="">Texas</option>
-                <option value="">Washington</option>
-               </select>
-              </div>
-
-              <div class="col-md-2 title">出发时间</div>
-              <div class="col-md-4 data">
-               <div class="input-group date">
-                <div class="input-group-addon">
-                 <i class="fa fa-calendar"></i>
-                </div>
-                <input type="text" class="form-control pull-right" id="datepicker-a6">
-               </div>
-              </div>
-              <div class="col-md-2 title">出游人数</div>
-              <div class="col-md-4 data">
-               <input type="text" class="form-control" placeholder="出游人数" value="">
-              </div>
-
-              <div class="col-md-2 title rowHeight2x">其他信息</div>
-              <div class="col-md-10 data rowHeight2x">
-               <textarea class="form-control" rows="3" placeholder="其他信息"></textarea>
-              </div>
-
-             </div>
-            </div>
-            <!--订单信息/-->
-
-
-           </section>
-          </div>
-          <div class="modal-footer">
-           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-           <button type="button" class="btn btn-primary" onclick="addPost();">新增</button>
-          </div>
-         </div>
-         <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-       </div>
-       <!-- /.modal -->
-      </div>
-      <!--单条新增模块-->
-
-      <!--批量新增模块-->
-      <div class="example-modal">
-       <div class="modal" id="myModal">
-        <div class="modal-dialog">
-         <div class="modal-content">
-          <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">Default Modal</h4>
-          </div>
-          <div class="modal-body">
-           <p>One fine body&hellip;</p>
-          </div>
-          <div class="modal-footer">
-           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-           <button type="button" class="btn btn-primary" onclick="a();">Save changes</button>
-          </div>
-         </div>
-         <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-       </div>
-       <!-- /.modal -->
-      </div>
-      <!--批量新增模块-->
-
-      <!--单条修改模块-->
-      <div class="example-modal">
-       <div class="modal" id="myModal">
-        <div class="modal-dialog">
-         <div class="modal-content">
-          <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-           <h4 class="modal-title">Default Modal</h4>
-          </div>
-          <div class="modal-body">
-           <p>One fine body&hellip;</p>
-          </div>
-          <div class="modal-footer">
-           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-           <button type="button" class="btn btn-primary" onclick="a();">Save changes</button>
-          </div>
-         </div>
-         <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-       </div>
-       <!-- /.modal -->
-      </div>
-      <!--单条修改模块-->
-
-
-
-
-
+   <!--订单信息-->
+   <div class="panel panel-default">
+    <div class="panel-heading">岗位新增</div>
+    <div class="row data-type">
+     <form class="form-inline" action="/oa/post/branchAddPost" method="post" enctype="multipart/form-data">
+     <div class="col-md-2 title">文件上传</div>
+     <div class="col-md-4 data">
+      <a href="javascript:" class="a-upload">
+       <input type="file" name="file" id="file"/>点击这里上传文件
+      </a>
      </div>
+      <div class="box-tools text-center">
+       <button type="submit" class="btn bg-maroon">提交</button>
+      </div>
+     </form>
+
 
     </div>
-
    </div>
+   <!--订单信息/-->
+
+   <!--工具栏-->
+
+   <!--工具栏/-->
 
   </section>
+  <!-- 正文区域 /-->
 
  </div>
-
- <!-- page script -->
  <!-- 内容区域 /-->
 
  <!-- 底部导航 -->
  <footer class="main-footer">
   <div class="pull-right hidden-xs">
-   <b>Version</b> 1.0.0
+   <b>Version</b> 1.0.8
   </div>
-  <strong>Copyright &copy; 2022-9999 <a href="http://www.itcast.cn">yuanhang</a>.</strong> All rights reserved.
+  <strong>Copyright &copy; 2014-2017 <a href="http://www.itcast.cn">研究院研发部</a>.</strong> All rights reserved.
  </footer>
  <!-- 底部导航 /-->
 
 </div>
 
-<script>
-    $(function () {
-        $('#myForm').bootstrapValidator({
-            message: 'This value is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                postNm: {
-                    message: '用户名验证失败',
-                    validators: {
-                        notEmpty: {
-                            message: '用户名不能为空'
-                        },
-                        stringLength: {
-                            min: 6,
-                            max: 18,
-                            message: '用户名长度必须在6到18位之间'
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_]+$/,
-                            message: '用户名只能包含大写、小写、数字和下划线'
-                        }
-                    }
-                }
 
-            }
-        });
-    });
+
+<script>
     $(document).ready(function() {
         // 选择框
         $(".select2").select2();
-
-        //$('#myForm').bootstrapValidator();
 
         // WYSIHTML5编辑器
         $(".textarea").wysihtml5({
             locale: 'zh-CN'
         });
 
-        //submit();
-        $._messengerDefaults = {
-            extraClasses: 'messenger-fixed messenger-theme-block messenger-on-bottom messenger-on-right'
-        };
-
-
-
-
-
-
-
-        toastr.options = {
-            closeButton: false,                                            // 是否显示关闭按钮，（提示框右上角关闭按钮）
-            debug: false,                                                    // 是否使用deBug模式
-            progressBar: false,  // 是否显示进度条，（设置关闭的超时时间进度条）
-            positionClass: "toast-top-center", // 设置提示款显示的位置
-             onclick: null, // 点击消息框自定义事件
-             showDuration: "300", // 显示动画的时间
-             hideDuration: "1000" // 消失的动画时间
-            // timeOut: "2000", // 自动关闭超时时间
-            // extendedTimeOut: "1000", // 加长展示时间
-            // showEasing: "swing", // 显示时的动画缓冲方式
-            // hideEasing: "linear", // 消失时的动画缓冲方式
-            // showMethod: "fadeIn", // 显示时的动画方式
-            // hideMethod: "fadeOut" // 消失时的动画方式
-        };
-        //toastr.options.positionClass = 'toast-top-center';
-
-
-        $("#download").click(function () {
-            /*$.globalMessenger().post({
-                message: "操作成功",//提示信息
-                type: 'info',//消息类型。error、info、success
-                hideAfter: 2,//多长时间消失
-                showCloseButton:true,//是否显示关闭按钮
-                hideOnNavigate: true //是否隐藏导航
-            });*/
-            //toastr.warning('只能选择一行进行编辑');
-            //toastr.success('只能选择一行进行编辑');
-            //toastr.info('只能选择一行进行编辑');
-            toastr.error('只能选择一行进行编辑');
-        });
 
     });
-
-    function a() {
-        $("#addModal").modal('hide');
-        toastr.success('新增成功');
-    }
-
-    $(document).ready(function() {
-        $('#datepicker-a3').datepicker({
-            autoclose: true,
-            language: 'zh-CN'
-        });
-    });
-
-
-    $(document).ready(function() {
-        $('#datepicker-a6').datepicker({
-            autoclose: true,
-            language: 'zh-CN'
-        });
-    });
-
-
-    function submit1() {
-       $("#addModal").modal();
-       //$('#myForm').data("bootstrapValidator").resetForm();//重置表单所有验证规则，下一步再触发验证
-       //$('#defaultForm').bootstrapValidator('validate');
-       //var s = $("#myForm").data("bootstrapValidator");
-       //$("#myForm").data("bootstrapValidator").validate();//手动触发全部验证
-       $("#myForm").bootstrapValidator('validate');//提交验证
-       if ($("#myForm").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
-           toastr.success('成功');
-       }
-
-   }
-   function  submit() {
-
-        $('#example').DataTable({
-            "bProcessing": true,//显示正在处理
-            "bServerSide": true,//延迟加载
-            "bScrollCollapse": false,  //当显示的数据不足以支撑表格的默认的高度时，依然显示纵向的滚动条。(默认是false)
-            "bPaginate": true,  //是否显示分页
-            "bLengthChange": true,  //每页显示的记录数
-            "bFilter": true, //搜索栏
-            "bAutoWidth": false,//自动计算表格各列宽度
-            "bSort": true, //是否支持排序功能
-            "bInfo": true, //显示表格信息
-            "aaSorting": [[0, "asc"]],  //给列表排序 ，第一个参数表示数组 (由0开始)。1 表示Browser列。第二个参数为 desc或是asc
-            "fnServerData": retrieveData,//用于替换默认发到服务端的请求操作
-            "iDisplayLength": 10,//用于指定一屏显示的条数，需开启分页器
-            "bStateSave": true, //保存状态到cookie ***** 很重要 ， 当搜索的时候页面一刷新会导致搜索的消失。使用这个属性就可避免了
-            "sPaginationType": "full_numbers", //分页，一共两种样式，full_numbers和two_button(默认)
-            "oLanguage": {
-                "sLengthMenu": "每页显示 10 条记录",
-                "sZeroRecords": "对不起，查询不到任何相关数据",
-                "sInfo": "当前显示 START 到 END 条，共 TOTAL 条记录",
-                "sInfoEmtpy": "找不到相关数据",
-                "sInfoFiltered": "数据表中共为 MAX 条记录)",
-                "sProcessing": "正在加载中…",
-                "sSearch": "搜索",
-                "sUrl": "", //多语言配置文件，可将oLanguage的设置放在一个txt文件中，例：Javascript/datatable/dtCH.txt
-                "oPaginate": {
-                    "sFirst":    "第一页",
-                    "sPrevious": " 上一页 ",
-                    "sNext":     " 下一页 ",
-                    "sLast":     " 最后一页 "
-                }
-            },
-            "bJQueryUI": false, //可以添加 jqury的ui theme  需要添加css
-            "aLengthMenu": [[10, 25, 50, 100], ["每页10条", "每页25条","每页50条", "显示所有数据"]],  //设置每页显示记录的下拉菜单，如果不设置会有默认的[10,25,50,100]
-            "columnDefs": [
-
-                { "targets":0,"data": "postNm" },
-                { "targets":1,"data": "signTmOne" },
-                { "targets":2,"data": "signTmTwo" },
-                { "targets":3,"data": "signTmThree" },
-                { "targets":4,"data": "signTmFour" },
-                { "targets":5,"data": "status" },
-                {
-                    "targets":6,
-                    "data": null,
-                    "defaultContent": "修改"
-
-                }
-            ]
-        });
-    };
-
-    function retrieveData( sSource, aoData, fnCallback, oSettings ) {
-        var start = oSettings._iDisplayStart;
-        var limit = oSettings._iDisplayLength;
-        var staDt = $("#staDt").val();
-        var endDt = $("#endDt").val();
-        var userId = $("#userId").val();
-        var userName = $("#userName").val();
-        $.ajax({
-            dataType: 'json',
-            type: "POST",
-            url: "http://localhost:8080/oa/post/queryPost",
-            data: {
-                start:start,
-                limit:limit,
-                staDt:staDt,
-                endDt:endDt,
-                userId:userId,
-                userName:userName
-            },
-            cache: false,
-            success: function (response) {
-                if(response.code==200){
-                    fnCallback(response.data);
-                    $('#successModel').modal();
-                }else{
-                    $('#errorModel').modal();
-                }
-
-            },
-            error:function (response) {
-
-            }
-        });
-    }
-
-
-
 
 
 

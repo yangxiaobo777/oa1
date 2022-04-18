@@ -41,8 +41,7 @@
  <script src="/oa/adminlte/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
  <script src="/oa/adminlte/plugins/knob/jquery.knob.js"></script>
  <script src="/oa/adminlte/plugins/daterangepicker/moment.min.js"></script>
- <script src="/oa/adminlte/plugins/daterangepicker/daterangepicker.js"></script>
- <script src="/oa/adminlte/plugins/daterangepicker/daterangepicker.zh-CN.js"></script>
+
  <script src="/oa/adminlte/plugins/datepicker/bootstrap-datepicker.js"></script>
  <script src="/oa/adminlte/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
  <script src="/oa/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
@@ -429,8 +428,8 @@
 
 
          <div class="btn-group" role="group" aria-label="..." style="">
-          <button type="button" class="btn btn-success" onclick="aa();"><i class="glyphicon glyphicon-search"></i>查询</button>
-          <button type="button" class="btn btn-warning" id="download" onclick="bb();"><i class="glyphicon glyphicon-download-alt"></i>下载</button>
+          <button type="button" class="btn btn-success" onclick="queryPost();"><i class="glyphicon glyphicon-search"></i>查询</button>
+          <button type="button" class="btn btn-warning" id="download" onclick="queryPostToExcel();"><i class="glyphicon glyphicon-download-alt"></i>下载</button>
           <div class="btn-group">
            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-user"></i>新增<span class="caret"></span>
@@ -445,7 +444,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body">
-       <table id="example" class="table table-bordered table-hover">
+       <table id="example" class="table  table-stripe">
         <thead>
         <tr>
          <th>岗位名称</th>
@@ -461,6 +460,8 @@
         </tbody>
        </table>
       </div>
+
+
 
      </div>
 
@@ -547,39 +548,60 @@
        }
 
    }
-   function  aa() {
+   function  queryPost() {
         $("#example").dataTable().fnDestroy();
         $('#example').DataTable({
-            "bProcessing": true,//显示正在处理
-            "bServerSide": true,//延迟加载
-            "bScrollCollapse": false,  //当显示的数据不足以支撑表格的默认的高度时，依然显示纵向的滚动条。(默认是false)
-            "bPaginate": true,  //是否显示分页
-            "bLengthChange": true,  //每页显示的记录数
-            "bFilter": true, //搜索栏
-            "bAutoWidth": false,//自动计算表格各列宽度
-            "bSort": true, //是否支持排序功能
-            "bInfo": true, //显示表格信息
-            "aaSorting": [[0, "asc"]],  //给列表排序 ，第一个参数表示数组 (由0开始)。1 表示Browser列。第二个参数为 desc或是asc
-            "fnServerData": retrieveData,//用于替换默认发到服务端的请求操作
-            "iDisplayLength": 10,//用于指定一屏显示的条数，需开启分页器
-            "bStateSave": false, //保存状态到cookie ***** 很重要 ， 当搜索的时候页面一刷新会导致搜索的消失。使用这个属性就可避免了
-           // "sPaginationType": "full_numbers", //分页，一共两种样式，full_numbers和two_button(默认)
-            "bJQueryUI": false, //可以添加 jqury的ui theme  需要添加css
-            "aLengthMenu": [[10, 25, 50, 100], ["每页10条", "每页25条","每页50条", "显示所有数据"]],  //设置每页显示记录的下拉菜单，如果不设置会有默认的[10,25,50,100]
-            "columnDefs": [
-                {"targets":"_all","className":"dt_body_center"},
-                { "targets":0,"data": "postNm","class":"center"},
-                { "targets":1,"data": "signTmOne" },
-                { "targets":2,"data": "signTmTwo" },
-                { "targets":3,"data": "signTmThree" },
-                { "targets":4,"data": "signTmFour" },
-                { "targets":5,"data": "status" },
-                {
-                    "targets":6,
-                    "data": null,
-                    "defaultContent": "修改"
-
+            bProcessing: true,//显示正在处理
+            bServerSide: true,//延迟加载
+            bPaginate: true,  //是否显示分页
+            bLengthChange: true,  //每页显示的记录数
+            bSort: false,
+            bFilter: false, //搜索栏
+            bAutoWidth: true,//自动计算表格各列宽度
+            bInfo: true, //显示表格信息
+            fnServerData: retrieveData,//用于替换默认发到服务端的请求操作
+            iDisplayLength: 10,//用于指定一屏显示的条数，需开启分页器
+            oLanguage: { //国际化配置
+                sProcessing : "正在获取数据，请稍后...",
+                sLengthMenu : "显示 _MENU_ 条",
+                sZeroRecords : "没有您要搜索的内容",
+                sInfo : "从 _START_ 到  _END_ 条记录 总记录数为 _TOTAL_ 条",
+                sInfoEmpty : "记录数为0",
+                sInfoFiltered : "(全部记录数 _MAX_ 条)",
+                sInfoPostFix : "",
+                sSearch : "从当前数据中检索： ",
+                sUrl : "",
+                oPaginate: {
+                    sFirst : "首页",
+                    sPrevious : "上一页",
+                    sNext : "下一页",
+                    sLast : "尾页"
                 }
+            },
+            aoColumns:[
+                // mDataProp：绑定数据属性
+                // sDefaultContent：设置默认值
+                // sClass：添加 class 属性，不懂的直接去掉
+                // sTtile：设置列标题
+                // sWidth：设置列宽度
+                // mRender：添加 html 代码或者自定义的值
+                // 更多关于 aoColumns 的参数请查看下面的附件
+
+                // sTtile 设置的内容，会替换到 html thead 中的“标题”
+                {mDataProp:"postNm", sDefaultContent:"", sClass:"text-c"},
+                {mDataProp:"signTmOne", sDefaultContent:"", sClass:"text-c"},
+                {mDataProp:"signTmTwo", sDefaultContent:"", sClass:"text-c"},
+                {mDataProp:"signTmThree", sDefaultContent:"", sClass:"text-c"},
+                {mDataProp:"signTmFour",sDefaultContent:"", sClass:"text-c"},
+                {mDataProp:"status",sDefaultContent:"", sClass:"text-c"},
+                {
+                    mDataProp:null,
+                    mRender: function(mDataProp,type,row){
+                        var html = '<td width="25" class="text-c"><input type="checkbox" value="' + mDataProp + '"></td> ';
+                        return html;
+                    }
+                }
+
             ]
         });
     };
@@ -615,26 +637,8 @@
         });
     }
 
-function bb() {
-    $.ajax({
-        dataType: 'json',
-        type: "POST",
-        url: "http://localhost:8080/oa/post/queryPostToExcel",
-        cache: false,
-        success: function (response) {
-            if(response.code==200){
-                toastr.success('成功');
-            }else{
-                toastr.error('报错');
-            }
-
-        },
-        error:function (response) {
-
-        }
-    });
-
-
+function queryPostToExcel() {
+    window.location.href="http://localhost:8080/oa/post/queryPostToExcel";
 }
 
 

@@ -45,7 +45,7 @@ public class ExcelUtil {
                                   HttpServletResponse response, List list) {
         try {
             ServletOutputStream outputStream = getOutputStream(fileName,response);
-            ExcelWriterBuilder writeBook = EasyExcel.write("D://"+fileName+".xlsx", head);
+            ExcelWriterBuilder writeBook = EasyExcel.write(outputStream, head);
             ExcelWriterSheetBuilder sheet = writeBook.sheet(fileName);
             sheet.doWrite(list);
             outputStream.flush();
