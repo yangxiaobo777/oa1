@@ -85,6 +85,7 @@
  <script src="/oa/js/toastr.min.js"></script>
  <script src="/oa/js/bootstrapValidator.min.js"></script>
  <script src="/oa/js/lobibox.js"></script>
+
 </head>
 
 <body class="hold-transition skin-purple sidebar-mini">
@@ -435,13 +436,15 @@
           <button type="button" class="btn btn-warning" id="download" onclick="queryPostToExcel();"><i class="glyphicon glyphicon-download-alt"></i>下载</button>
           <div class="btn-group">
            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-user"></i>新增<span class="caret"></span>
+            <i class="fa fa-user-plus"></i>新增<span class="caret"></span>
            </button>
            <ul class="dropdown-menu">
-            <li><a href="addPost.html">单条新增</a></li>
-            <li><a href="branchAddPost.html">批量新增</a></li>
+               <li><a href="addPost.html">单条新增</a></li>
+               <li><a href="branchAddPost.html">批量新增</a></li>
            </ul>
           </div>
+             <button type="button" class="btn btn-danger" id="branchDelete" onclick="deletePost();"><i class="fa fa-user-times"></i>批量删除</button>
+
          </div>
        </form>
       </div>
@@ -492,7 +495,7 @@
 </div>
 
 <script>
-
+    var table;
     $(document).ready(function() {
         // 选择框
         $(".select2").select2();
@@ -554,14 +557,14 @@
    }
    function  queryPost() {
         $("#example").dataTable().fnDestroy();
-        $('#example').DataTable({
+        table = $('#example').DataTable({
             bProcessing: true,//显示正在处理
             bServerSide: true,//延迟加载
             bPaginate: true,  //是否显示分页
             bLengthChange: true,  //每页显示的记录数
             bSort: false,
             bFilter: false, //搜索栏
-            bAutoWidth: true,//自动计算表格各列宽度
+            bAutoWidth: false,//自动计算表格各列宽度
             bInfo: true, //显示表格信息
             fnServerData: retrieveData,//用于替换默认发到服务端的请求操作
             iDisplayLength: 10,//用于指定一屏显示的条数，需开启分页器
@@ -608,7 +611,7 @@
                 {
                     mDataProp:null,
                     mRender: function(mDataProp,type,row){
-                        var html = '<td width="25" class="text-c"><input type="checkbox" value="' + mDataProp + '"></td> ';
+                        var html = '<button type="button" class="btn btn-sm" onclick="updatePost(this);"><i class="glyphicon glyphicon-pencil"></i>修改</button>';
                         return html;
                     }
                 }
@@ -663,10 +666,19 @@ function queryPostToExcel() {
     window.location.href="http://localhost:8080/oa/post/queryPostToExcel";
 }
 
-
-
-
-
+function deletePost() {
+    Lobibox.confirm({
+        msg: "确定要删除吗?",
+        callback: function ($this, type) {
+            if (type === 'yes') {
+                toastr.success("删除成功");
+                if (table!=null) {
+                    table.ajax.reload()
+                }
+            }
+        }
+    });
+}
 
 
 </script>
