@@ -6,7 +6,6 @@ import com.alibaba.excel.read.builder.ExcelReaderBuilder;
 import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +22,7 @@ import java.util.List;
  * @description : [excel导入导出]
  * @createTime :[2022/3/28 21:54]
  */
-@Slf4j
+
 public class ExcelUtil {
 
     public static <T> List<T> upLoad(MultipartFile file, Class<T> head, AnalysisEventListener listener){
@@ -45,22 +44,13 @@ public class ExcelUtil {
     public  static void downLoad(String fileName , Class head,
                                   HttpServletResponse response, List list) {
         try {
-            // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
-            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.setCharacterEncoding("utf-8");
-            // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
-            String fileName1 = URLEncoder.encode("测试", "UTF-8").replaceAll("\\+", "%20");
-            response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName1 + ".xlsx");
-            EasyExcel.write(response.getOutputStream()).sheet(fileName1).doWrite(list);
-
-            /*EasyExcel.write(response.getOutputStream()).sheet("模板").doWrite(data());
-            ServletOutputStream outputStream = getOutputStream("D://aaa.xlsx",response);
-            ExcelWriterBuilder writeBook = EasyExcel.write(outputStream,head);
-            ExcelWriterSheetBuilder sheet = writeBook.sheet("D://aaa.xlsx");
+            ServletOutputStream outputStream = getOutputStream(fileName,response);
+            ExcelWriterBuilder writeBook = EasyExcel.write(outputStream, head);
+            ExcelWriterSheetBuilder sheet = writeBook.sheet(fileName);
             sheet.doWrite(list);
-            outputStream.flush();*/
+            outputStream.flush();
         } catch (Exception e) {
-            log.error("导出文件报错：{}",e.getMessage(),e);
+
         }
     }
 
