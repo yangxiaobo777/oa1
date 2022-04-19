@@ -37,7 +37,7 @@ public class PostController {
         return service.queryPost(map);
     }
 
-    @PostMapping("/queryPostToExcel")
+    @GetMapping("/queryPostToExcel")
     public void queryPostToExcel(@RequestParam Map<String,Object> map, HttpServletResponse response){
          service.queryPostToExcel(map,response);
     }
