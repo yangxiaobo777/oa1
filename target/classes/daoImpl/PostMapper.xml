@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yang.oa.dao.PostDao">
   <select id="queryPost" parameterType="hashmap" resultType="post">
-    select post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour
+    select postId,postNm,signTmOne,signTmTwo,signTmThree,signTmFour
     ,case status when '0' then '正常'
     when '1' then '废弃'
     else '-' end  as status
@@ -30,7 +30,7 @@
   </select>
 
   <select id="queryPostToExcel" parameterType="hashmap" resultType="post">
-    select post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour
+    select postId,postNm,signTmOne,signTmTwo,signTmThree,signTmFour
     ,case status when '0' then '正常'
     when '1' then '废弃'
     else '-' end  as status
@@ -44,17 +44,17 @@
 
   <insert id="addPost" parameterType="post">
         insert into post
-        (post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour,status)
+        (postId,postNm,signTmOne,signTmTwo,signTmThree,signTmFour,status)
         values
-        (#{post},#{postNm},#{signTmOne},#{signTmTwo},#{signTmThree},#{signTmFour},'0')
+        (#{postId},#{postNm},#{signTmOne},#{signTmTwo},#{signTmThree},#{signTmFour},'0')
     </insert>
 
   <insert id="branchAddPost" parameterType="post">
     insert into post
-    (post,postNm,signTmOne,signTmTwo,signTmThree,signTmFour,status)
+    (postId,postNm,signTmOne,signTmTwo,signTmThree,signTmFour,status)
     values
     <foreach collection="posts" item="post" separator=",">
-      (#{post.post},#{post.postNm},#{post.signTmOne},#{post.signTmTwo},#{post.signTmThree},#{post.signTmFour},'0')
+      (#{post.postId},#{post.postNm},#{post.signTmOne},#{post.signTmTwo},#{post.signTmThree},#{post.signTmFour},'0')
     </foreach>
 
   </insert>
@@ -65,22 +65,30 @@
                        ,signTmTwo = #{signTmTwo,jdbcType=VARCHAR}
                        ,signTmThree = #{signTmThree,jdbcType=VARCHAR}
                        ,signTmFour = #{signTmFour,jdbcType=VARCHAR}
-        where post = #{post}
+        where postId = #{postId}
     </update>
 
   <delete id="deletePost" parameterType="string">
-        update post set status = '9' where post = #{post}
+        update post set status = '9' where postId = #{postId}
     </delete>
 
   <delete id="branchDeletePost" parameterType="string">
-    update post set status = '9' where post in
-    <foreach collection="postIds" item="post" open="(" close=")" separator=",">
-      #{post}
+    update post set status = '9' where postId in
+    <foreach collection="postIds" item="postId" open="(" close=")" separator=",">
+      #{postId}
     </foreach>
   </delete>
 
   <select id="queryIsExistPost" parameterType="string" resultType="int">
-        select count(*) from post where post = #{post}
+        select count(*) from post where postId = #{postId}
     </select>
+
+  <select id="getPost" resultType="hashmap">
+      select postId,postName from post_param
+  </select>
+
+  <select id="queryOnePost" parameterType="string" resultType="post">
+    select postId,signTmOne,signTmTwo,signTmThree,signTmFour from post where postId = #{postId}
+  </select>
 
 </mapper>

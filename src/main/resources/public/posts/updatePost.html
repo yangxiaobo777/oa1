@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
  <!-- 页面meta -->
@@ -435,7 +435,7 @@
        <div class="input-group-addon">
         <i class="fa  fa-reorder"></i>
        </div>
-       <select class="form-control select2" style="width: 100%;" id="postType" disabled="true">
+       <select class="form-control select2" style="width: 100%;" id="postType" disabled="true" th:value="${post.postId}">
 
 
        </select>
@@ -452,7 +452,7 @@
        <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
        </div>
-       <input type="text" class="form-control pull-right" id="signTmOne">
+       <input type="text" class="form-control pull-right" id="signTmOne" th:value="${post.signTmOne}">
       </div>
      </div>
 
@@ -462,7 +462,7 @@
        <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
        </div>
-       <input type="text" class="form-control pull-right" id="signTmTwo">
+       <input type="text" class="form-control pull-right" id="signTmTwo" th:value="${post.signTmTwo}">
       </div>
      </div>
 
@@ -472,7 +472,7 @@
        <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
        </div>
-       <input type="text" class="form-control pull-right" id="signTmThree">
+       <input type="text" class="form-control pull-right" id="signTmThree" th:value="${post.signTmThree}">
       </div>
      </div>
 
@@ -482,7 +482,7 @@
        <div class="input-group-addon">
         <i class="fa fa-calendar"></i>
        </div>
-       <input type="text" class="form-control pull-right" id="signTmFour">
+       <input type="text" class="form-control pull-right" id="signTmFour" th:value="${post.signTmFour}">
       </div>
      </div>
 
@@ -522,7 +522,7 @@
 
 
 <script>
-    var post = [[${post}]]
+
     $(document).ready(function() {
         // 选择框
         $(".select2").select2();
@@ -598,8 +598,8 @@
             // showMethod: "fadeIn", // 显示时的动画方式
             // hideMethod: "fadeOut" // 消失时的动画方式
         };
-        initPostId();
-        initPost();
+        //initPostId();
+        //initPost();
     });
 
 

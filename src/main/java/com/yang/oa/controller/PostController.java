@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
-@ResultResponse
+
 @RequestMapping("/post")
 public class PostController {
 
@@ -96,6 +96,12 @@ public class PostController {
         modelAndView.setViewName("/posts/updatePost.html");
         return modelAndView;
     }
+
+    @GetMapping("/t")
+    public String get(){
+        return "a";
+    }
+
 
 
  }
