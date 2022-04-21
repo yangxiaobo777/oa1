@@ -10,6 +10,7 @@
  <meta name="description" content="新增岗位">
  <meta name="keywords" content="新增岗位">
  <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+ <link rel="shortcut icon" href="/oa/img/logo.ico">
  <link rel="stylesheet" href="/oa/adminlte/plugins/bootstrap/css/bootstrap.min.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/font-awesome/css/font-awesome.min.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/ionicons/css/ionicons.min.css">
@@ -442,15 +443,7 @@
      </div>
 
 
-     <div class="col-md-2 title">岗位名称</div>
-     <div class="col-md-4 data">
-      <div class="input-group date">
-      <div class="input-group-addon">
-       <i class="fa  fa-user"></i>
-      </div>
-      <input type="text" class="form-control" placeholder="岗位名称" value="" id="postNm">
-     </div>
-     </div>
+
 
 
      <div class="col-md-2 title">第一次签到时间</div>
@@ -620,7 +613,7 @@
                     var data = response.data;
                     var option = '<option value="" selected="selected">请选择</option>';
                     for(var i=0;i<data.length;i++){
-                        option+='<option value="'+data[i].postTypeId+'">'+data[i].postTypeNm+'</option>';
+                        option+='<option value="'+data[i].postId+'">'+data[i].postName+'</option>';
                     }
                     $("#postType").empty();
                     $("#postType").html(option);
@@ -637,13 +630,13 @@
 
     function submit() {
         var postType = $("#postType").val();
-        var postNm = $("#postNm").val();
+        var postNm = $("#postType option:checked").text();
         var signTmOne = $("#signTmOne").val();
         var signTmTwo = $("#signTmTwo").val();
         var signTmThree = $("#signTmThree").val();
         var signTmFour = $("#signTmFour").val();
         var param = {
-            post:postType,
+            postId:postType,
             postNm:postNm,
             signTmOne:signTmOne,
             signTmTwo:signTmTwo,

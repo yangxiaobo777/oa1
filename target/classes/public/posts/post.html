@@ -453,7 +453,7 @@
        <table id="example" class="table  table-stripe">
         <thead>
         <tr>
-         <th><input type="checkbox" value=""/></th>
+         <th><input type="checkbox" id="total" value="" onclick="checkAll()"/></th>
          <th>岗位名称</th>
          <th>第一次签到时间</th>
          <th>第二次签到时间</th>
@@ -596,9 +596,9 @@
 
                 // sTtile 设置的内容，会替换到 html thead 中的“标题”
                 {
-                    mDataProp:null,
+                    mDataProp:"postId",
                     mRender: function(mDataProp,type,row){
-                        var html = '<td width="25" class="text-c"><input type="checkbox" value="' + mDataProp + '"></td> ';
+                        var html = '<td width="25" class="text-c"><input onclick="isCheckAll()" name = "postIds" type="checkbox" value="' +mDataProp+ '"></td> ';
                         return html;
                     }
                 },
@@ -609,9 +609,9 @@
                 {mDataProp:"signTmFour",sDefaultContent:"", sClass:"text-c"},
                 {mDataProp:"status",sDefaultContent:"", sClass:"text-c"},
                 {
-                    mDataProp:null,
+                    mDataProp:"postId",
                     mRender: function(mDataProp,type,row){
-                        var html = '<button type="button" class="btn btn-sm" onclick="updatePost(this);"><i class="glyphicon glyphicon-pencil"></i>修改</button>';
+                        var html = '<button type="button" class="btn btn-sm" onclick="updatePost('+mDataProp+');"><i class="glyphicon glyphicon-pencil"></i>修改</button>';
                         return html;
                     }
                 }
@@ -639,25 +639,13 @@
             success: function (response) {
                 if(response.code==200){
                     fnCallback(response.data);
-                    Lobibox.confirm({
-                        msg: "Are you sure you want to delete this user?",
-                        callback: function ($this, type) {
-                            if (type === 'yes') {
-                                toastr.success("删除成功")
-                            } else if (type === 'no') {
-                                Lobibox.notify('info', {
-                                    msg: 'You have clicked "No" button.'
-                                });
-                            }
-                        }
-                    });
                 }else{
-                    $('#errorModel').modal();
+                    toastr.error("查询失败");
                 }
 
             },
             error:function (response) {
-
+                toastr.error("系统报错");
             }
         });
     }
@@ -665,22 +653,98 @@
 function queryPostToExcel() {
     window.location.href="http://localhost:8080/oa/post/queryPostToExcel";
 }
-
-function deletePost() {
-    Lobibox.confirm({
-        msg: "确定要删除吗?",
-        callback: function ($this, type) {
-            if (type === 'yes') {
-                toastr.success("删除成功");
-                if (table!=null) {
-                    table.ajax.reload()
-                }
-            }
+function isCheckAll() {
+    var flag = true;
+    $("[name='postIds']").each(function () {
+        if(!($(this)[0].checked)){
+           flag = false;
         }
     });
+
+    if(flag){
+        $("#total").prop("checked",true);
+    }else{
+        $("#total").prop("checked",false);
+    }
+}
+function checkAll() {
+    if($("#total")[0].checked){
+        $("[name='postIds']").each(function () {
+            $(this).prop("checked",true)
+        })
+    }else{
+        $("[name='postIds']").each(function () {
+            $(this).prop("checked",false)
+        })
+    }
 }
 
+function deletePost() {
+    var postIds = [];
+    $("[name='postIds']").each(function () {
+        if($(this).prop("checked")){
+            var postId = $(this).val();
+            postIds.push(postId);
+        }
+    });
+    if(postIds.length==0){
+        Lobibox.alert("info",{
+           msg:"请勾选要删除的岗位!"
+        });
+    }else{
+        Lobibox.alert("info",{
+            msg: "确定要删除吗?",
+            callback: function ($this, type) {
+                if (type === 'ok') {
+                    $.ajax({
+                        dataType: 'json',
+                        type: "POST",
+                        contentType:"application/json;charset=utf-8",
+                        url: "http://localhost:8080/oa/post/branchDeletePost",
+                        data:JSON.stringify(postIds),
+                        cache: false,
+                        success: function (response) {
+                            if(response.code==200){
+                                toastr.success("删除成功");
+                                if (table!=null) {
+                                    table.ajax.reload()
+                                }
+                            }else{
+                                toastr.error("删除失败");
+                            }
 
+                        },
+                        error:function (response) {
+                            toastr.error("系统报错");
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+}
+
+ function updatePost(postId) {
+
+     window.location.href="http://localhost:8080/oa/post/queryOnePost?postId="+postId;
+
+     /*$.ajax({
+         type: "POST",
+         url: "http://localhost:8080/oa/post/queryOnePost",
+         data:{postId:postId},
+         cache: false,
+         success: function (response) {
+
+
+         },
+         error:function (response) {
+             toastr.error("系统报错");
+         }
+     });*/
+
+ }
 </script>
 </body>
 

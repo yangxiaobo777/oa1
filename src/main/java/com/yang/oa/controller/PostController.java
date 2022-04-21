@@ -8,8 +8,10 @@ import com.yang.oa.exceptions.OaException;
 import com.yang.oa.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.Map;
  * @createTime :[2022/3/29 21:57]
  */
 @Slf4j
-@RestController
+@Controller
 @ResultResponse
 @RequestMapping("/post")
 public class PostController {
@@ -31,6 +33,7 @@ public class PostController {
     private PostService service;
 
     @PostMapping("/queryPost")
+    @ResponseBody
     public JSONObject queryPost(@RequestParam Map<String,Object> map){
         log.info("==进来了==");
         log.info("map:{}",map);
@@ -38,38 +41,60 @@ public class PostController {
     }
 
     @GetMapping("/queryPostToExcel")
+    @ResponseBody
     public void queryPostToExcel(@RequestParam Map<String,Object> map, HttpServletResponse response){
          service.queryPostToExcel(map,response);
     }
 
     @PostMapping("/addPost")
+    @ResponseBody
     public void addPost(@RequestBody Post post){
          service.addPost(post);
     }
 
     @PostMapping("/branchAddPost")
+    @ResponseBody
     public void branchAddPost(MultipartFile file){
          service.branchAddPost(file);
     }
 
     @PostMapping("/updatePost")
+    @ResponseBody
     public void updatePost(@RequestBody Post post){
          service.updatePost(post);
     }
 
     @PostMapping("/deletePost")
+    @ResponseBody
     public void deletePost(String postId){
          service.deletePost(postId);
     }
 
     @PostMapping("/branchDeletePost")
-    public void branchDeletePost(List<String> postIds){
+    @ResponseBody
+    public void branchDeletePost(@RequestBody List<String> postIds){
          service.branchDeletePost(postIds);
     }
 
     @PostMapping("/queryIsExistPost")
+    @ResponseBody
     public boolean queryIsExistPost(String postId){
         return service.queryIsExistPost(postId);
+    }
+
+    @PostMapping("/getPost")
+    @ResponseBody
+    public Map<String,String> getPost(){
+        return service.getPost();
+    }
+
+    @GetMapping("/queryOnePost")
+    public ModelAndView queryOnePost(String postId){
+        ModelAndView modelAndView = new ModelAndView();
+        Post post = service.queryOnePost(postId);
+        modelAndView.addObject("post",post);
+        modelAndView.setViewName("/posts/updatePost.html");
+        return modelAndView;
     }
 
 

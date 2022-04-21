@@ -6,10 +6,11 @@
  <meta charset="utf-8">
  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
- <title>新增岗位</title>
- <meta name="description" content="新增岗位">
- <meta name="keywords" content="新增岗位">
+ <title>岗位修改</title>
+ <meta name="description" content="岗位修改">
+ <meta name="keywords" content="岗位修改">
  <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+ <link rel="shortcut icon" href="/oa/img/logo.ico">
  <link rel="stylesheet" href="/oa/adminlte/plugins/bootstrap/css/bootstrap.min.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/font-awesome/css/font-awesome.min.css">
  <link rel="stylesheet" href="/oa/adminlte/plugins/ionicons/css/ionicons.min.css">
@@ -415,7 +416,7 @@
     <li><a href="index.html"><i class="fa fa-dashboard"></i>首页</a></li>
     <li><a href="#">员工管理</a></li>
     <li><a href="post.html">员工岗位</a></li>
-    <li class="active">单条新增</li>
+    <li class="active">岗位修改</li>
    </ol>
   </section>
   <!-- 内容头部 /-->
@@ -425,7 +426,7 @@
 
    <!--订单信息-->
    <div class="panel panel-default">
-    <div class="panel-heading">岗位新增</div>
+    <div class="panel-heading">岗位修改</div>
     <div class="row data-type">
 
      <div class="col-md-2 title">岗位类型</div>
@@ -434,7 +435,7 @@
        <div class="input-group-addon">
         <i class="fa  fa-reorder"></i>
        </div>
-       <select class="form-control select2" style="width: 100%;" id="postType">
+       <select class="form-control select2" style="width: 100%;" id="postType" disabled="true">
 
 
        </select>
@@ -442,15 +443,7 @@
      </div>
 
 
-     <div class="col-md-2 title">岗位名称</div>
-     <div class="col-md-4 data">
-      <div class="input-group date">
-       <div class="input-group-addon">
-        <i class="fa  fa-user"></i>
-       </div>
-       <input type="text" class="form-control" placeholder="岗位名称" value="" id="postNm">
-      </div>
-     </div>
+
 
 
      <div class="col-md-2 title">第一次签到时间</div>
@@ -494,6 +487,10 @@
      </div>
 
 
+
+
+
+
     </div>
    </div>
    <!--订单信息/-->
@@ -525,6 +522,7 @@
 
 
 <script>
+    var post = [[${post}]]
     $(document).ready(function() {
         // 选择框
         $(".select2").select2();
@@ -600,23 +598,25 @@
             // showMethod: "fadeIn", // 显示时的动画方式
             // hideMethod: "fadeOut" // 消失时的动画方式
         };
+        initPostId();
         initPost();
     });
 
 
 
-    function initPost() {
+    function initPostId() {
         $.ajax({
             dataType: 'json',
             type: "POST",
             url: "http://localhost:8080/oa/post/getPost",
+            async:false,
             cache: false,
             success: function (response) {
                 if(response.code==200){
                     var data = response.data;
                     var option = '<option value="" selected="selected">请选择</option>';
                     for(var i=0;i<data.length;i++){
-                        option+='<option value="'+data[i].postTypeId+'">'+data[i].postTypeNm+'</option>';
+                        option+='<option value="'+data[i].postId+'">'+data[i].postName+'</option>';
                     }
                     $("#postType").empty();
                     $("#postType").html(option);
@@ -631,16 +631,21 @@
         });
     }
 
+    function initPost() {
+        var signTmOne = $("#signTmOne").val('${post.signTmOne}');
+        var signTmTwo = $("#signTmTwo").val('${post.signTmTwo}');
+        var signTmThree = $("#signTmThree").val('${post.signTmThree}');
+        var signTmFour = $("#signTmFour").val('${post.signTmFour}');
+        var postType = $("#postType").val('${post.postType}');
+    }
     function submit() {
         var postType = $("#postType").val();
-        var postNm = $("#postNm").val();
         var signTmOne = $("#signTmOne").val();
         var signTmTwo = $("#signTmTwo").val();
         var signTmThree = $("#signTmThree").val();
         var signTmFour = $("#signTmFour").val();
         var param = {
-            post:postType,
-            postNm:postNm,
+            postId:postType,
             signTmOne:signTmOne,
             signTmTwo:signTmTwo,
             signTmThree:signTmThree,
@@ -651,15 +656,19 @@
             dataType: 'json',
             type: "POST",
             contentType:"application/json;charset=UTF-8",
-            url: "http://localhost:8080/oa/post/addPost",
+            url: "http://localhost:8080/oa/post/updatePost",
             data:JSON.stringify(param),
+            async:false,
             cache: false,
             success: function (response) {
                 if(response.code==200){
-                    toastr.info('新增成功!');
-                    window.location.href="post.html";
+                    toastr.info('修改成功!');
+                    setTimeout(function () {
+                        window.location.href="post.html";
+                    },5000);
+
                 }else{
-                    toastr.info('新增失败!');
+                    toastr.info('修改失败!');
                 }
             },
             error:function (response) {

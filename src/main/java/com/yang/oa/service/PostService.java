@@ -124,6 +124,16 @@ public class PostService {
 
     }
 
+
+    @Transactional(readOnly = true)
+    public Map<String,String> getPost(){
+        try {
+            return dao.getPost();
+        }catch (Exception e){
+            throw new OaException(500,"获取岗位配置信息报错");
+        }
+    }
+
     @Transactional
     public boolean queryIsExistPost(String postId){
         try{
@@ -133,5 +143,14 @@ public class PostService {
             throw new OaException(500,"判断岗位是否存在报错");
         }
 
+    }
+
+    @Transactional(readOnly = true)
+    public Post queryOnePost(String postId){
+        try{
+            return dao.queryOnePost(postId);
+        }catch (Exception e){
+            throw new OaException(500,"获取单个岗位信息失败");
+        }
     }
 }

@@ -27,6 +27,10 @@ public interface PostDao {
 
     int queryIsExistPost(String postId);
 
+    Map<String,String> getPost();
+
+    Post queryOnePost(String postId);
+
 
 
 

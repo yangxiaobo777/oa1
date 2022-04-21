@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class Post extends Page{
 
     @ExcelProperty(value = "岗位id")
-    private String post;
+    private String postId;
 
     @ExcelProperty(value = "岗位名称")
     private String postNm;
